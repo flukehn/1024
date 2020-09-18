@@ -35,11 +35,52 @@ Grid.prototype.fromState = function (state) {
 
 // Find the first available random position
 Grid.prototype.randomAvailableCell = function () {
-  var cells = this.availableCells();
-
-  if (cells.length) {
-    return cells[Math.floor(Math.random() * cells.length)];
+  
+  var wf = [], rb = [];
+  for(var i = 0; i < 4; i++){
+    wf[i] = [];
+    rb[i] = [];
+    for(var j = 0; j < 4; j++){
+      wf[i][j] = 0;
+      rb[i][j] = 0;
+    }
   }
+  for (var i = 0; i < 4; i++) {
+    for (var j = 0; j < 4; j++) {
+      var p = this.cells[i][j];
+      if (!p) continue;
+      rb[i][j]=1;
+      for (var x = 0; x < 4; x++) {
+        for (var y = 0; y < 4; y++) {
+          if (rb[x][y]) continue;
+          var q=0;
+          if (x > i) q += x - i;
+          else q += i - x;
+          if (y > j)q += y - j;
+          else q += j - y;
+          var o = p.value;
+          for(var t = 0; t < q; t++) o /= 1.3;
+          wf[x][y] += o;
+        }
+      }
+    }
+  }
+  var an=-1;
+  var am;
+  for(var i=0;i<4;i++){
+    for(var j=0;j<4;j++){
+      if(!rb[i][j]&&wf[i][j]>an){
+        an=wf[i][j];
+        am={x:i,y:j};
+      }
+    }
+  }
+  if(an>=0) return am;
+  /*var cells = this.availableCells();
+  if (cells.length) {
+    return cells[0];
+    //return cells[Math.floor(Math.random() * cells.length)];
+  }*/
 };
 
 Grid.prototype.availableCells = function () {
