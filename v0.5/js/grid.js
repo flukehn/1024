@@ -75,7 +75,7 @@ Grid.prototype.randomAvailableCell = function () {
             o = -o;
           }
           //for (var t = 0; t < q; t++) o /= 1.3;
-          wf[x][y] += o * Math.pow(1.0 / 1.5, Math.pow((x - i) * (x - i) + (y - i) * (y - i), 0.5));
+          wf[x][y] += o * Math.pow(1.0 / 1.5, Math.pow((x - i) * (x - i) + (y - j) * (y - j), 0.5));
         }
       }
     }
